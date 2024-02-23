@@ -12,7 +12,7 @@ Localhost: http://127.0.0.1:5000/
 
 ## Tech Stack
 * **PostgreSQL** as our database of choice
-* **Python3** and **Flask** as our server language and server framework
+* **Python3 (3.8.10)** and **Flask** as our server language and server framework
 * **Auth0** for authentication management
 * **Render Cloud** for deployment
 
