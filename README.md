@@ -56,13 +56,51 @@ psql capstone_test < capstone_test.sql
 python -m unittest test_app.py
 ```
 
+##### Roles
+
+Created three roles for users under `Users & Roles` section in Auth0
+
+* Casting Assistant
+	* Can view actors and movies
+* Casting Director
+	* All permissions a Casting Assistant has and…
+	* Add or delete an actor from the database
+	* Modify actors or movies
+* Executive Producer
+	* All permissions a Casting Director has and…
+	* Add or delete a movie from the database
+
+##### Permissions
+
+Following permissions are created under created API settings.
+
+* `view:actors`
+* `view:movies`
+* `delete:actors`
+* `post:actors`
+* `patch:actors`
+* `patch:movies`
+* `post:movies`
+* `delete:movies`
+  
 ## API Reference
+
+### Models
+There are two models:
+* Movie
+	* title
+	* release_date
+* Actor
+	* name
+	* age
+	* gender
 
 ### Endpoints
 
 #### GET '/movies'
 - General:
     - Return all movies in the database
+    - Requires `view:movies` permission
     - Role Authorized: Casting Assistant, Casting Director, Executive Producer
 - Example: ```curl -H "Authorization: Bearer <Token>" http://127.0.0.1:5000/movies```
 ```
@@ -91,6 +129,7 @@ python -m unittest test_app.py
 #### GET '/actors'
 - General:
     - Return all actors in the database
+    - Requires `view:actors` permission
     - Role Authorized: Casting Assistant, Casting Director, Executive Producer
 - Example: ```curl -H "Authorization: Bearer <Token>" http://127.0.0.1:5000/actors```
 ```
@@ -122,7 +161,8 @@ python -m unittest test_app.py
 
 #### POST '/movies'
 - General:
-    - Add a new movie. The new movie must have all four information. 
+    - Add a new movie. The new movie must have all four information.
+    - Requires `post:movies` permission
     - Role Authorized: Executive Producer
 - Example: ```curl -X POST - H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{"title": "Call Me by Your Name", "release_date": "2017-10-20"}' http://127.0.0.1:5000/movies```
 ```
@@ -134,7 +174,8 @@ python -m unittest test_app.py
 
 #### POST '/actors'
 - General:
-    - Add a new actor. The new movie must have all four information. 
+    - Add a new actor. The new movie must have all four information.
+    - Requires `post:actors` permission 
     - Role Authorized: Casting Director, Executive Producer
 - Example: ```curl -X POST - H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{"name": "Timothée Chalamet", "age": 24, "gender": "M"}' http://127.0.0.1:5000/actors```
 
@@ -148,6 +189,7 @@ python -m unittest test_app.py
 #### PATCH '/movies/<int:id>'
 - General:
     - Update some information of a movie based on a payload.
+    - Require `patch:movies` permission
     - Roles authorized : Casting Director, Executive Producer.
 - Example: ```curl http://127.0.0.1:5000/movies/3 -X PATCH -H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{ "release_date": "2020-11-01" }'```
 ```
@@ -160,6 +202,7 @@ python -m unittest test_app.py
 #### PATCH '/actors/<int:id>'
 - General:
     - Update some information of an actor based on a payload.
+    - Require `patch:actors`
     - Roles authorized : Casting Director, Executive Producer
 - Example: ```curl -X PATCH - H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{"age": 88}' http://127.0.0.1:5000/actors/3```
 ```
@@ -172,6 +215,7 @@ python -m unittest test_app.py
 #### DELETE '/movies/<int:id>'
 - General:
     - Deletes a movie by id form the url parameter.
+    - Require `delete:movies` permission
     - Roles authorized : Executive Producer.
 - Example: ```curl -H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -X DELETE http://127.0.0.1:5000/movies/2```
 ```
@@ -184,6 +228,7 @@ python -m unittest test_app.py
 #### DELETE '/actors/<int:id>'
 - General:
     - Deletes a movie by id form the url parameter.
+    - Require `delete:actors` permission
     - Roles authorized : Casting Director, Executive Producer.
 - Example: ```curl -H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -X DELETE http://127.0.0.1:5000/actors/2```
 ```
