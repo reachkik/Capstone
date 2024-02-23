@@ -1,0 +1,31 @@
+INSERT INTO actors values (1, 'Robert Downey Jr', 'M', 58);
+INSERT INTO actors values (2, 'Leonardo DiCaprio', 'M', 49);
+INSERT INTO actors values (3, 'Jackie Chan', 'M', 69);
+INSERT INTO actors values (4, 'Chris Hemsworth', 'M', 40);
+INSERT INTO actors values (5, 'Robert De Niro', 'M', 80);
+INSERT INTO actors values (6, 'Tom Cruise', 'M', 61);
+INSERT INTO actors values (7, 'Will Smith', 'M', 55);
+INSERT INTO actors values (8, 'Shah Rukh Khan', 'M', 58);
+INSERT INTO actors values (9, 'Tom Hanks', 'M', 67);
+INSERT INTO actors values (10, 'Denzel Washington', 'M', 69);
+
+
+INSERT INTO movies values (1, 'Iris', '2001-12-14' );
+INSERT INTO movies values (2, 'The Shawshank Redemption', '1994-10-14' );
+INSERT INTO movies values (3, 'Pulp Fiction', '1994-10-14' );
+INSERT INTO movies values (4, 'The Departed', '2006-10-06' );
+INSERT INTO movies values (5, 'Fight Club ', '1999-10-15' );
+INSERT INTO movies values (6, 'The Kings Speech', '2010-11-26' );
+INSERT INTO movies values (7, 'V for Vendetta', '2006-03-16' );
+INSERT INTO movies values (8, 'Titanic', '1998-03-13' );
+INSERT INTO movies values (9, 'Eternal Sunshine of the Spotless Mind', '2004-03-19' );
+INSERT INTO movies values (10, 'Memento ', '2001-03-16' );
+
+
+CREATE DATABASE capstone_test  WITH TEMPLATE capstone OWNER postgres;
+
+
+
+
+
+
