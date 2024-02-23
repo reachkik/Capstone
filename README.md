@@ -69,27 +69,23 @@ python -m unittest test_app.py
 {
     "movies": [
         {
+            "id": 1,
+            "release_date": "Fri, 14 Dec 2001 00:00:00 GMT",
+            "title": "Iris"
+        },
+        {
             "id": 2,
-            "release_date": "Fri, 07 Feb 2020 00:00:00 GMT",
-            "title": "Birds of Prey"
+            "release_date": "Fri, 14 Oct 1994 00:00:00 GMT",
+            "title": "The Shawshank Redemption"
         },
         {
             "id": 3,
-            "release_date": "Sun, 10 Mar 2013 00:00:00 GMT",
-            "title": "The Great Gatsby"
-        },
-        {
-            "id": 4,
-            "release_date": "Fri, 20 May 2011 00:00:00 GMT",
-            "title": "Pirates of the Caribbean: On Stranger Tides"
-        },
-        {
-            "id": 6,
-            "release_date": "Wed, 24 Jul 2019 00:00:00 GMT",
-            "title": "once upon a time in hollywood"
+            "release_date": "Fri, 14 Oct 1994 00:00:00 GMT",
+            "title": "Pulp Fiction"
         }
     ],
-    "success": true
+    "success": true,
+    "total_movies": 3
 }
 ```
 #### GET '/actors'
@@ -101,35 +97,26 @@ python -m unittest test_app.py
 {
     "actors": [
         {
-            "age": 30,
-            "gender": "F",
-            "id": 2,
-            "movie_id": 2,
-            "name": "Margot Robbie"
+            "age": 58,
+            "gender": "M",
+            "id": 1,
+            "name": "Robert Downey Jr"
         },
         {
-            "age": 45,
+            "age": 49,
             "gender": "M",
-            "id": 3,
-            "movie_id": 3,
+            "id": 2,
             "name": "Leonardo DiCaprio"
         },
         {
-            "age": 35,
-            "gender": "F",
-            "id": 4,
-            "movie_id": 3,
-            "name": "Carey Mulligan"
-        },
-        {
-            "age": 57,
+            "age": 69,
             "gender": "M",
-            "id": 5,
-            "movie_id": 4,
-            "name": "Johnny Depp"
+            "id": 3,
+            "name": "Jackie Chan"
         }
     ],
-    "success": true
+    "success": true,
+    "total_actors": 3
 }
 ```
 
@@ -140,12 +127,8 @@ python -m unittest test_app.py
 - Example: ```curl -X POST - H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{"title": "Call Me by Your Name", "release_date": "2017-10-20"}' http://127.0.0.1:5000/movies```
 ```
 {
-    "movie": {
-        "id": 16,
-        "release_date": "Fri, 20 Oct 2017 00:00:00 GMT",
-        "title": "Call Me by Your Name"
-    },
-    "success": true
+    "success": True,
+    "movie_id_added": 11
 }
 ```
 
@@ -153,18 +136,12 @@ python -m unittest test_app.py
 - General:
     - Add a new actor. The new movie must have all four information. 
     - Role Authorized: Casting Director, Executive Producer
-- Example: ```curl -X POST - H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{"name": "Timothée Chalamet", "age": 24, "gender": "M", "movie_id": 6}' http://127.0.0.1:5000/actors```
+- Example: ```curl -X POST - H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{"name": "Timothée Chalamet", "age": 24, "gender": "M"}' http://127.0.0.1:5000/actors```
 
 ```
-{
-    "actor": {
-        "age": 24,
-        "gender": "M",
-        "id": 11,
-        "movie_id": 6,
-        "name": "Timothée Chalamet"
-    },
+{    
     "success": true
+    "actor_id_added": 11
 }
 ```
 
@@ -172,14 +149,10 @@ python -m unittest test_app.py
 - General:
     - Update some information of a movie based on a payload.
     - Roles authorized : Casting Director, Executive Producer.
-- Example: ```curl http://127.0.0.1:5000/movies/3 -X PATCH -H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{ "title": "", "release_date": "2020-11-01" }'```
+- Example: ```curl http://127.0.0.1:5000/movies/3 -X PATCH -H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{ "release_date": "2020-11-01" }'```
 ```
 {
-  "movie": {
-    "id": 3,
-    "release_date": "Sun, 01 NOV 2020 00:00:00 GMT",
-    "title": "The Great Gatsby"
-  },
+  "movie_id_updated": 3,
   "success": true
 }
 ```
@@ -188,20 +161,15 @@ python -m unittest test_app.py
 - General:
     - Update some information of an actor based on a payload.
     - Roles authorized : Casting Director, Executive Producer
-- Example: ```curl -X PATCH - H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{"name": "", "age": 88, "": "M", "movie_id": }' http://127.0.0.1:5000/actors/3```
+- Example: ```curl -X PATCH - H '{"Content-Type: application/json", "Authorization: Bearer <TOKEN>}' -d '{"age": 88}' http://127.0.0.1:5000/actors/3```
 ```
 {
-  "actor": {"age": 88,
-    "gender": "M",
-    "id": 3,
-    "movie_id": 3,
-    "name": "Leonardo DiCaprio"
-  }, 
+  "actor_id_updated" : 3
   "success": true
 }
 ```
 
-#### DELETE '/movis/<int:id>'
+#### DELETE '/movies/<int:id>'
 - General:
     - Deletes a movie by id form the url parameter.
     - Roles authorized : Executive Producer.
@@ -209,7 +177,7 @@ python -m unittest test_app.py
 ```
 {
   "success": true, 
-  "delete": 2
+  "deleted": 2
 }
 ```
 
