@@ -1,6 +1,7 @@
 export AUTH0_DOMAIN='u-fsnd.uk.auth0.com'
 export API_AUDIENCE='Capstone'
 export ALGORITHMS='RS256'
+export DATABASE_URL='postgresql://capstone_vn6s_user:NJBuRO3CnZsMtfiHjqzQbLDPdPy6gVi3@dpg-cndciu7109ks738rhr1g-a.oregon-postgres.render.com/capstone_vn6s'
 export TEST_DATABASE_URL='postgresql://capstone_vn6s_user:NJBuRO3CnZsMtfiHjqzQbLDPdPy6gVi3@dpg-cndciu7109ks738rhr1g-a.oregon-postgres.render.com/capstone_test'
 export FLASK_APP=app
 export FLASK_ENV=development
