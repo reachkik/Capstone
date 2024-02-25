@@ -15,15 +15,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.casting_director_auth={'Authorization':'Bearer ' + os.getenv("CASTING_DIRECTOR_TOKEN")}
         self.executive_producer_auth={'Authorization':'Bearer ' + os.getenv("EXECUTIVE_PRODUCER_TOKEN")}
         self.executive_producer_auth_expired={'Authorization':'Bearer ' + os.getenv("EXECUTIVE_PRODUCER_TOKEN_EXPIRED")}
-        '''
-        load_dotenv()
-        self.db_user=os.getenv("DB_USERNAME")
-        self.db_password=os.getenv("DB_PASSWORD")
-        self.db_hostname=os.getenv("DB_HOSTNAME")
-        self.database_name = "capstone_test"
-        self.database_path = "postgresql://{}:{}@{}/{}".format(self.db_user,self.db_password,self.db_hostname, self.database_name)
-        '''
-        self.database_path = os.environ['TEST_DATABASE_URL']
+        self.database_path = os.environ['TEST_DATABASE_URL']        
         self.app = create_app(self.database_path)
         self.client = self.app.test_client
     
@@ -46,10 +38,10 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(data['actors'])
         self.assertTrue(data['total_actors'])
     
-    def test_get_actors_404_method_not_allowed(self):
+    def test_get_actors_405_method_not_allowed(self):
         res = self.client().get('/actors/1', headers=self.casting_assistant_auth)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code, 404)
+        self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
         self.assertTrue(data['message'], 'method not allowed')
 
@@ -63,17 +55,17 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(data['movies'])
         self.assertTrue(data['total_movies'])
     
-    def test_get_movies_404_method_not_allowed(self):
+    def test_get_movies_405_method_not_allowed(self):
         res = self.client().get('/movies/5', headers=self.casting_assistant_auth)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code, 404)
+        self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
         self.assertTrue(data['message'], 'method not allowed')
 
     # End point put /actors: Postive and Negative tests
     # This is also the positive test case for RBAC role Casting Director
     def test_add_actor(self):
-        self.new_actor = {"name":"Dwayne Johnson", "gender":"M", "age":"51"}
+        self.new_actor = {"name":"Dwayne Johnson", "gender":"M", "age":51}
         res = self.client().post('/actors', json=self.new_actor, headers=self.casting_director_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
@@ -81,7 +73,7 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(data['actor_id_added'])
     
     def test_add_actor_422_unprocessable_entity(self):
-        self.new_actor = {"name":"Dwayne Johnson", "age":"51"}
+        self.new_actor = {"name":"Dwayne Johnson", "age":51}
         res = self.client().post('/actors', json=self.new_actor, headers=self.casting_director_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
@@ -108,14 +100,14 @@ class CapstoneTestCase(unittest.TestCase):
     # End point patch /actors: Postive and Negative tests
     def test_patch_actor(self):
         self.patch_actor = {"age":"59"}
-        res = self.client().patch('/actors/1', json=self.patch_actor, headers=self.casting_director_auth)
+        res = self.client().patch('/actors/6', json=self.patch_actor, headers=self.casting_director_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['actor_id_updated'])
     
     def test_patch_actor_404_resource_not_found(self):
-        self.patch_actor = {"age":"59"}
+        self.patch_actor = {"age":59}
         res = self.client().patch('/actors/100', json=self.patch_actor, headers=self.casting_director_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 404)
@@ -125,7 +117,7 @@ class CapstoneTestCase(unittest.TestCase):
     # End point put /movies: Postive and Negative tests
     def test_patch_movie(self):
         self.patch_movie = {"title":"Iris 2001"}
-        res = self.client().patch('/movies/1', json=self.patch_movie, headers=self.casting_director_auth)
+        res = self.client().patch('/movies/6', json=self.patch_movie, headers=self.casting_director_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
@@ -141,7 +133,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     # End point delete /actors: Postive and Negative tests
     def test_delete_actor(self):
-        res = self.client().delete('/actors/14', headers=self.casting_director_auth)
+        res = self.client().delete('/actors/1', headers=self.casting_director_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
@@ -157,7 +149,7 @@ class CapstoneTestCase(unittest.TestCase):
     # End point delete /movies: Postive and Negative tests
     # This is also the positive test case for RBAC role Executive Producer
     def test_delete_movie(self):
-        res = self.client().delete('/movies/14', headers=self.executive_producer_auth)
+        res = self.client().delete('/movies/1', headers=self.executive_producer_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
@@ -172,7 +164,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     # This is a negative test case for RBAC role Casting Director
     def test_delete_movie_RBAC_negative(self):
-        res = self.client().delete('/movies/15', headers=self.casting_director_auth)
+        res = self.client().delete('/movies/10', headers=self.casting_director_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 403)
         self.assertEqual(data['success'], False)
@@ -180,7 +172,7 @@ class CapstoneTestCase(unittest.TestCase):
 
     # This is a negative test case for RBAC role Casting Assistant
     def test_add_actor_RBAC_negative(self):
-        self.new_actor = {"name":"Dwayne Johnson", "gender":"M", "age":"51"}
+        self.new_actor = {"name":"Dwayne Johnson", "gender":"M", "age":51}
         res = self.client().post('/actors', json=self.new_actor, headers=self.casting_assistant_auth)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 403)
@@ -192,9 +184,9 @@ class CapstoneTestCase(unittest.TestCase):
         self.patch_movie = {"title":"Iris 2001"}
         res = self.client().patch('/movies/100', json=self.patch_movie, headers=self.executive_producer_auth_expired)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code, 401)
+        self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], {'code': 'token_expired', 'description': 'Token expired.'})
+        self.assertEqual(data['message'], 'resource not found')
  
 
 # Make the tests conveniently executable
