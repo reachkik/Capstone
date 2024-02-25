@@ -353,7 +353,7 @@ def create_app(db_uri="", test_config=None):
         ), e.status_code
 
     return app
-APP = create_app()
+app = create_app()
 if __name__ == '__main__':
     #    app.run(host='0.0.0.0', port=8080, debug=True)
-    APP.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
