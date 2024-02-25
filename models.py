@@ -11,18 +11,6 @@ import json
 #Comment next line to run locally
 DATABASE_PATH = os.environ['DATABASE_URL']
 
-#Uncomment below to execute locally
-'''
-load_dotenv()
-
-db_user=os.getenv("DB_USERNAME")
-db_password=os.getenv("DB_PASSWORD")
-db_hostname=os.getenv("DB_HOSTNAME")
-
-database_name = 'capstone'
-DATABASE_PATH = 'postgresql://{}:{}@{}/{}'.format(db_user,db_password,db_hostname, database_name)
-'''   
-
 db = SQLAlchemy()
 
 '''
