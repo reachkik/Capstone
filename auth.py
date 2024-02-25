@@ -13,8 +13,8 @@ API_AUDIENCE = os.environ.get('API_AUDIENCE')
 '''
 
 AUTH0_DOMAIN = 'u-fsnd.uk.auth0.com'
-ALGORITHMS = 'Capstone'
-API_AUDIENCE = 'RS256'
+ALGORITHMS = ['RS256']
+API_AUDIENCE = 'Capstone'
 
 '''
 AuthError Exception:
