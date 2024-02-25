@@ -6,7 +6,7 @@ This is the capstone project for Full-Stack Udacity Nanodegree. Casting Agency m
 Though the front-end is very simple, most of the work are done in the back-end. I wrote Restful APIs, built a database using SQLAlchemey, secured the application using Auth0, tested the application using unit tests and via Postman, and finally deploy the application to Heroku.
 
 ## Project Result
-Render: TBD
+Render Cloud:(https://capstone-c3ff.onrender.com)
 
 Localhost: http://127.0.0.1:5000/
 
@@ -55,7 +55,9 @@ createdb capstone_test
 psql capstone_test < capstone_test.sql
 python -m unittest test_app.py
 ```
-
+## Postman Testing for endpoints
+There is a postman JSON collection created for testing the end points.
+Import Capstone.postman_collection.json collection into postman to test the endpoints.
 ##### Roles
 
 Created three roles for users under `Users & Roles` section in Auth0
