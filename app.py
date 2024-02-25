@@ -38,7 +38,7 @@ def create_app(db_uri="", test_config=None):
         or appropriate status code indicating reason for failure
     '''
     @app.route('/actors', methods=['GET'])
-    #@requires_auth(permission='get:actors')
+    @requires_auth(permission='get:actors')
     def get_actors(payload):
         try:
             actors = Actors.query.order_by(Actors.id).all()
