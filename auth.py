@@ -6,9 +6,15 @@ from jose import jwt
 from urllib.request import urlopen
 
 
+'''
 AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
 ALGORITHMS = os.environ.get('ALGORITHMS')
 API_AUDIENCE = os.environ.get('API_AUDIENCE')
+'''
+
+AUTH0_DOMAIN = 'u-fsnd.uk.auth0.com'
+ALGORITHMS = 'Capstone'
+API_AUDIENCE = 'RS256'
 
 '''
 AuthError Exception:
